@@ -1,69 +1,45 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
+error Error__NotNFT(address msg_sender, address nftAddress);
+
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
+import "./NFT.sol";
 
-contract Op3n is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
-    using Counters for Counters.Counter;
+contract Op3n is Ownable {
+    mapping(address => uint[]) private userToTokenIds;
 
-    Counters.Counter private _tokenIdCounter;
-    event NFTMinted(uint256); //Event to track in logs and update front end.
-    mapping(address => uint[]) private Op3nMap; //Op3nMap track all address and inbox elements
+    event newMessage(address _user, uint _tokenId, uint time);
+    NFT private nft;
 
-    constructor() ERC721("op3n", "OP3") {}
+    // modifier onlyNft() {
+    //     if (msg.sender != nftAddress) {
+    //         revert Error__NotNFT(msg.sender, nftAddress);
+    //     }
+    //     _;
+    // }
 
-    //set the array for user address with token value
-    function setInbox(address _addr, uint _i) public {
-        Op3nMap[_addr].push(_i);
+    constructor() {
+        nft = new NFT();
     }
 
-    function getInbox(address _addr) public view returns (uint[] memory) {
-        return Op3nMap[_addr];
+    function sendMessage(address _user, string memory uri) external returns(uint256){
+        uint _tokenId = nft.safeMint(_user,uri);
+        userToTokenIds[_user].push(_tokenId);
+        emit newMessage(_user, _tokenId, block.timestamp);
+        return _tokenId;
+
     }
 
-    function safeMint(address to, string memory uri) public payable {
-        uint256 tokenId = _tokenIdCounter.current();
-        _tokenIdCounter.increment();
-        _safeMint(to, tokenId);
-        _setTokenURI(tokenId, uri);
-
-        //set the NFT Receiver's inbox 
-        setInbox(to,tokenId);
-        emit NFTMinted(tokenId);  //Check Token Id value
+    function getInbox(address _addr) external view returns (uint[] memory) {
+        return userToTokenIds[_addr];
     }
 
-    // The following functions are overrides required by Solidity.
-
-    function _beforeTokenTransfer(address from, address to, uint256 tokenId, uint256 batchSize)
-        internal
-        override(ERC721, ERC721Enumerable)
-    {
-        super._beforeTokenTransfer(from, to, tokenId, batchSize);
-    }
-
-    function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {
-        super._burn(tokenId);
-    }
-
-    function tokenURI(uint256 tokenId)
-        public
-        view
-        override(ERC721, ERC721URIStorage)
-        returns (string memory)
-    {
-        return super.tokenURI(tokenId);
-    }
-
-    function supportsInterface(bytes4 interfaceId)
-        public
-        view
-        override(ERC721, ERC721Enumerable)
-        returns (bool)
-    {
-        return super.supportsInterface(interfaceId);
+    function getNFT() external view returns (NFT){
+        return nft;
     }
 }
