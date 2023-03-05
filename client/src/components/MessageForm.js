@@ -16,7 +16,7 @@ function MessageForm() {
 
     const handleFormSubmit = (event) => {
         event.preventDefault();
-        //SEND MESSAGE USING STATE DATA
+        //TODO: SEND MESSAGE USING STATE DATA
       };
 
     return (

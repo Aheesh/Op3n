@@ -3,6 +3,7 @@ import MessageListed from "./MessageListed";
 
 function Inbox() {
     let messages = [{from: "WALLET1", subject:"Subject1", date: "DATE", address: "1"}, {from: "WALLET2", subject:"Subject2", date: "DATE", address: "2"}]
+    //TODO: GET MESSAGE LIST WITH NEEDED PROPERTIES FROM BACKEND
     return (
         <div className="inbox-container">
             <MessageListed message={{from: "From", subject:"Subject", date:"Date"}} />
