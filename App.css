@@ -1,0 +1,101 @@
+* {
+  box-sizing: inherit;
+}
+
+.sidebar {
+  position: absolute;
+  background-color: #001f8d;
+  border-radius: 0 25px 25px 0;
+  width: 15%;
+  height: 100vh;
+  color: whitesmoke;
+  font-size: large;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  top: 0;
+}
+
+.sidebar>.logo{
+  padding: 1rem;
+  padding-right: 1.3rem;
+  width: 70%;
+  font-size: larger;
+  text-align: center;
+}
+
+.sidebar ul{
+  list-style-type: none;
+  padding-left: 0.75rem;
+}
+
+.sidebar li>i{
+  padding-right: 10px;
+}
+
+.sidebar li:not(:last-child){
+  padding-bottom: 1.5rem;
+}
+
+.inbox-container{
+  position: absolute;
+  top: 15%;
+  right: 5%;
+  width: 75%;
+  height: 80%;
+  border: 2px solid black;
+  border-radius: 15px;
+}
+
+.listedMessage {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.listedMessage:hover {
+  transition: all 0.5s;
+  background-color:aqua;
+  cursor: pointer;
+}
+
+.listedMessage:not(:last-child){
+  border-style: none;
+  border-bottom: 1px solid black;
+}
+
+.listedMessage:first-child{
+  border-radius: 15px 15px 0 0;
+  font-weight: 600;
+}
+
+section {
+  margin-left: 15%;
+  width: 85%;
+}
+
+section>div:first-child{
+  padding-left: 2.7rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+section>div:first-child>button{
+  transition: all 0.5s;
+  margin-right: 3rem;
+  padding: 0.2rem;
+  height: 30px;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: #001f8d;
+  color: whitesmoke;
+}
+section>div:first-child>button:hover{
+  background-color: aqua;
+  color: black;
+}
+
+section h2{
+  font-size: xx-large;
+}
